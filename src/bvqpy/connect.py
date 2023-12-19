@@ -15,9 +15,9 @@ def connect(email, password):
 
     r = requests.get('https://formr.org', auth=(email, password))
     if (r.status_code == 200):
-        print(f"{'\033[91m'}Connected to formr!")
+        print("Connected to formr!")
     else:
-        print(f"{'\033[92m'}Failed to connect: Error " + r.status_code)
+        print("Failed to connect: Error " + r.status_code)
 
     return gspread.oauth()
     
