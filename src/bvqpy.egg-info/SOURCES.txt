@@ -4,7 +4,6 @@ pyproject.toml
 setup.py
 src/bvqpy/__init__.py
 src/bvqpy/connect.py
-src/bvqpy/participants.py
 src/bvqpy.egg-info/PKG-INFO
 src/bvqpy.egg-info/SOURCES.txt
 src/bvqpy.egg-info/dependency_links.txt
