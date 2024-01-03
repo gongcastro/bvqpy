@@ -1,15 +1,13 @@
 Metadata-Version: 2.1
 Name: bvqpy
-Version: 0.0.1.1
+Version: 0.0.1.2
 Summary: Barcelona Vocabulary Questonnaire
 Home-page: https://github.com/gongcastro/bvqpy
 Author: Gonzalo Garcia-Castro
 Author-email: gongarciacastro@gmail.com
-License: UNKNOWN
 Project-URL: Bug Reports, https://github.com/gongcastro/bvqpy/issues
 Project-URL: Source, https://github.com/gongcastro/bvqpy/
 Keywords: python,vocabulary
-Platform: UNKNOWN
 Classifier: Development Status :: 1 - Planning
 Classifier: Intended Audience :: Science/Research
 Classifier: License :: OSI Approved :: MIT License
@@ -20,6 +18,9 @@ Classifier: Operating System :: Microsoft :: Windows
 Requires-Python: >=3.7
 Description-Content-Type: text/markdown
 License-File: LICENSE
+Requires-Dist: requests
+Requires-Dist: pandas
+Requires-Dist: numpy
 
 # bvqpy
 
@@ -45,5 +46,3 @@ BVQ is currently a developing package for internal use at the [Center for Brain 
 ## Code of Conduct
 
 Please note that the bvq project is released with a [Contributor Code of Conduct](https://contributor-covenant.org/version/2/1/CODE_OF_CONDUCT.html). By contributing to this project, you agree to abide by its terms.
-
-
