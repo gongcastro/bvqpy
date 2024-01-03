@@ -1,6 +1,6 @@
 # bvqpy-v0.0.1.2
 
-* Add `participants()`
+* Add `participants()` and docstring
 
 # bvqpy-v0.0.1.1
 
