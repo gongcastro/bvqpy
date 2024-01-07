@@ -1,9 +1,9 @@
 import pandas as pd
 import numpy as np
-from bvqpy.connect import connect
+from gspread.client import Client
 
 
-def participants(con):
+def participants(con: Client) -> pd.core.frame.DataFrame:
     """
     Retrieve and update local and/or remote data from formr
 
@@ -13,7 +13,7 @@ def participants(con):
 
     Parameters
     ----------
-    con: Connection to formr and Google Spreadsheets, as returned by `connect`
+    con: Connection to formr and Google Spreadsheets, as returned by `bvqpy.connect`
 
     Returns
     -------
@@ -26,18 +26,36 @@ def participants(con):
 
     ss = "164DMKLRO0Xju0gdfkCS3evAq9ihTgEgFiuJopmqt7mo"
 
-    p = con.open_by_key(ss).sheet1.get_all_records()
-    p = pd.DataFrame(p)
-    p = p.replace(r'^\s*$', np.nan, regex=True)
-    p['include'] = p['include'].astype('bool')
-    p = p.dropna(subset=['code'])
-    p = p[p['include']]
-    p = p[['id', 'code', 'time', 'date_birth', 'date_sent',
-           'version', 'randomisation', 'call']]
-    p = p.rename(columns={"id": "child_id",
-                          "code": "response_id",
-                          "randomisation": "version_list"})
-    p['response_id'] = p['response_id'].str.replace('BL', '').astype('int')
-    p['version'] = p['version'].str.replace('bl-', '')
-    p.sort_values(['response_id'], ascending=False)
-    return p
+    df = con.open_by_key(ss).sheet1.get_all_records()
+    df = pd.DataFrame(df)
+    df = df.replace(r"^\s*$", np.nan, regex=True)
+
+    # transform types
+    df.astype({"include": bool,
+               "time": int})
+    df.include = df.include == "TRUE"
+    date_cols = ["date_birth", "date_sent"]
+    df[date_cols] = df[date_cols].apply(
+        lambda x: pd.to_datetime(x, dayfirst=True))
+
+    # filter rows
+    df = df.dropna(subset=["code"])
+    df = df[df["include"]]
+
+    # select and rename columns
+    df = df[["id", "code", "time", "date_birth", "date_sent",
+             "version", "randomisation", "call"]]
+    df = df.rename(columns={"id": "child_id",
+                            "code": "response_id",
+                            "randomisation": "version_list"})
+
+    # fix values
+    df = df.replace("bl-|BL-|bl|BL", "", regex=True)
+    df.response_id = df.response_id.astype("O")
+    df.response_id = df.child_id.astype("O")
+
+    # reorder table
+    df.sort_values(["response_id"],
+                   key=lambda col: pd.to_numeric(col), ascending=False)
+
+    return df
