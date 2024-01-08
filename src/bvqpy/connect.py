@@ -7,17 +7,22 @@ import csv
 import gspread
 import gspread
 import requests
+from dotenv import dotenv_values
 
-def connect(email, password):
+
+def connect(password=dotenv_values(".env")["FORMR_PWD"]):
     """
     This function tries to log in to the formr API with the user-provided password (argument password).
     """
 
-    r = requests.get('https://formr.org', auth=(email, password))
-    if (r.status_code == 200):
-        print("Connected to formr!")
-    else:
-        print("Failed to connect: Error " + r.status_code)
+    email = "gonzalo.garciadecastro@upf.edu"
 
-    return gspread.oauth()
-    
+    try:
+        r = requests.get('https://formr.org', auth=(email, password))
+        if (r.status_code == 200):
+            return gspread.oauth()
+        else:
+            print(f"Failed to connect: Error {r.status_code}")
+
+    except ValueError:
+        print("Unable to connect")

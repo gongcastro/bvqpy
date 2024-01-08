@@ -1,5 +1,10 @@
 import pandas as pd
 import os
+from dotenv import dotenv_values
+
+
+def get_secrets(secret: str) -> str:
+    return dotenv_values(".env")[secret]
 
 
 def make_fixture(obj, file: str) -> None:

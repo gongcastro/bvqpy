@@ -7,7 +7,6 @@ install: build
 import:
 	python3 -c 'import bvqpy'
 
-
 test:
 	pytest
 

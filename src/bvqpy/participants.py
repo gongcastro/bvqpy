@@ -1,9 +1,10 @@
 import pandas as pd
 import numpy as np
+from bvqpy import connect
 from gspread.client import Client
 
 
-def participants(con: Client) -> pd.core.frame.DataFrame:
+def participants() -> pd.core.frame.DataFrame:
     """
     Retrieve and update local and/or remote data from formr
 
@@ -26,6 +27,7 @@ def participants(con: Client) -> pd.core.frame.DataFrame:
 
     ss = "164DMKLRO0Xju0gdfkCS3evAq9ihTgEgFiuJopmqt7mo"
 
+    con = connect()
     df = con.open_by_key(ss).sheet1.get_all_records()
     df = pd.DataFrame(df)
     df = df.replace(r"^\s*$", np.nan, regex=True)
