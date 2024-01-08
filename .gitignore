@@ -4,4 +4,4 @@ dist/
 build/
 .env
 __pycache__/
-source/bvqpy/__pycache__/
+src/bvqpy/__pycache__/
