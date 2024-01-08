@@ -2,5 +2,5 @@
 src/.vscode/
 dist/
 build/
-.env/
+.env
 __pycache__/
